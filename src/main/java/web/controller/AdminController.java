@@ -7,7 +7,7 @@ import web.model.User;
 import web.service.UserService;
 
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/admin")
 public class AdminController {
     private UserService userService;
 
@@ -24,7 +24,7 @@ public class AdminController {
     @PostMapping
     public String addUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @GetMapping()
@@ -48,13 +48,13 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id){
         userService.update(id, user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") long id) {
         userService.remove(id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
 }

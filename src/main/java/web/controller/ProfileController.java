@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.service.UserService;
 
-@RequestMapping(value = "/profile")
+@RequestMapping(value = "/user")
 @Controller
 public class ProfileController {
     private UserService userService;

@@ -38,16 +38,41 @@ public class User implements UserDetails{
 //        this.roles = roles;
 //    }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setUsername(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -58,18 +83,6 @@ public class User implements UserDetails{
     @Override
     public String getUsername() {
         return getName();
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
     @Override
@@ -102,12 +115,6 @@ public class User implements UserDetails{
         return getRoles();
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
 
 }
