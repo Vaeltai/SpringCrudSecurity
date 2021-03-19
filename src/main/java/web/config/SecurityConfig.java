@@ -12,22 +12,23 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import web.config.handler.LoginSuccessHandler;
+import web.service.UserDetailsServiceImpl;
 import web.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Autowired
-    public void setUserDetailsService(UserService userService) {
-        this.userService = userService;
+    public void setUserDetailsServiceImpl(UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
-                .successHandler(new LoginSuccessHandler())//указываем логику обработки при логине
+                .successHandler(new LoginSuccessHandler(userDetailsServiceImpl))//указываем логику обработки при логине
                 .loginProcessingUrl("/login")// указываем action с формы логина
                 .usernameParameter("j_username")// Указываем параметры логина и пароля с формы логина
                 .passwordParameter("j_password")
@@ -58,6 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder());
     }
 }

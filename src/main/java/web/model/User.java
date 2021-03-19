@@ -23,7 +23,6 @@ public class User implements UserDetails{
     @Transient
     private String passwordConfirm;
 
-//    cascade = CascadeType.MERGE,
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -31,13 +30,13 @@ public class User implements UserDetails{
 
     public User() {}
 
-//
-//    public User(String name, String password, List<Role> roles) {
-//        this.name = name;
-//        this.password = password;
-//        this.roles = roles;
-//    }
-
+    public User(Long id, String name, String password, String passwordConfirm, List<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.passwordConfirm = passwordConfirm;
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;
