@@ -6,12 +6,12 @@
 </head>
 <body>
 <div th:block th:each="tempUser : ${users}">
-    <a th:href="@{/users/{id}(id=${tempUser.getId()})}"
+    <a th:href="@{/admin/{id}(id=${tempUser.getId()})}"
        th:text="${tempUser.getName()}">user</a>
 </div>
 <br/>
 <hr/>
-<a href="/users/new">Create new user</a>
+<a href="/admin/new">Create new user</a>
 <br/>
 <a href="/logout">Logout</a>
 </body>

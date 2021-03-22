@@ -34,5 +34,5 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             httpServletResponse.sendRedirect("/user/" + id );
         }
     }
-//
+
 }
