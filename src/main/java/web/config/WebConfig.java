@@ -1,9 +1,12 @@
 package web.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -22,6 +25,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+@PropertySource("classpath:db.properties")
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
@@ -29,6 +33,9 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ComponentScan("web")
 public class WebConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
+
+    @Autowired
+    private Environment env;
 
     public WebConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -61,20 +68,21 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/users?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName(env.getProperty("db.driver"));
+        dataSource.setUrl(env.getProperty("db.url"));
+        dataSource.setUsername(env.getProperty("db.username"));
+        dataSource.setPassword(env.getProperty("db.password"));
         return dataSource;
     }
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         final Properties properties = new Properties();
-        properties.put( "hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect" );
-        properties.put( "hibernate.show_sql", "true" );
-        properties.put( "hibernate.hbm2ddl.auto", "update" );
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean =
+                new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setJpaProperties(properties);
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setPackagesToScan("web.model");
