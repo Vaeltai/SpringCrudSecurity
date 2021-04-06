@@ -52,10 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/user/{id}")
-                .access("hasAuthority('ADMIN') or (authentication.name == @userServiceImpl.getUserById(#id).email)")
-
+                .access("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')")
                 // защищенные URL
                 .anyRequest().authenticated();
     }
