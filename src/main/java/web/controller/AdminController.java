@@ -1,5 +1,4 @@
 package web.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ public class AdminController {
     @GetMapping(value = "/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        return "/new";
+        return "new";
     }
 
     @PostMapping
@@ -30,19 +29,19 @@ public class AdminController {
     @GetMapping()
     public String users(Model model) {
         model.addAttribute("users", userService.getListUsers());
-        return "/users";
+        return "users";
     }
 
     @GetMapping("/{id}")
     public String showUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.show(id));
-        return "/show";
+        return "show";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.show(id));
-        return "/edit";
+        return "edit";
     }
 
     @PatchMapping("/{id}")
