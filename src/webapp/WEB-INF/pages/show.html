@@ -9,7 +9,7 @@
 <p th:text="${user.getRoles()}">VALUE</p>
 <p th:text="${user.getId()}">VALUE</p>
 
-<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+<form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
     <input type="submit" value="Delete"/>
 </form>
 <br/>
